@@ -7,8 +7,8 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 # Configurar la conexión a la base de datos
 db_config = {
     'host': 'aws.connect.psdb.cloud',
-    'user': 'vday78i50d4mb8bb2dn2',
-    'password': 'pscale_pw_FJkxXAqMFPlCf0leqx6pCXZ9L4LfEi3SXYcRSshidoZ',
+    'user': 'oc5ykg962ar7p25zq66j',
+    'password': 'pscale_pw_nxbsL3xyPyPfw4lZ98ftyr3QIitZoFrzyxZZJRXRQJn',
     'database': 'lab11'
 }
 
@@ -69,6 +69,36 @@ def delete(id):
 
     # Redirigir a la página principal
     return redirect(url_for('index'))
+
+# Ruta para editar un libro
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit(id):
+    # Conectar a la base de datos
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        # Obtener los datos del formulario de edición
+        title = request.form['title']
+        author = request.form['author']
+
+        # Actualizar el libro en la tabla 'books'
+        cursor.execute("UPDATE books SET title = %s, author = %s WHERE id = %s", (title, author, id))
+        conn.commit()
+
+        # Redirigir a la página principal
+        return redirect(url_for('index'))
+    else:
+        # Obtener el libro a editar
+        cursor.execute("SELECT * FROM books WHERE id = %s", (id,))
+        book = cursor.fetchone()
+
+        # Cerrar la conexión a la base de datos
+        cursor.close()
+        conn.close()
+
+        # Renderizar el template 'edit.html' con los datos del libro
+        return render_template('edit.html', book=book)
 
 if __name__ == '__main__':
     app.run()

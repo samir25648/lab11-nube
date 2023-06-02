@@ -86,6 +86,11 @@ h2 {
     cursor: pointer;
 }
 
+.btn-primary,
+.btn-danger {
+    margin-right: 5px;
+}
+
 @media (max-width: 767px) {
     .container {
         margin: 20px;

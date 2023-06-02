@@ -3,6 +3,12 @@
 <head>
     <title>Registro de Libros</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .btn-action {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -42,7 +48,10 @@
                             <td>{{ row[0] }}</td>
                             <td>{{ row[1] }}</td>
                             <td>{{ row[2] }}</td>
-                            <td><a href="{{ url_for('delete', id=row[0]) }}" class="btn btn-danger btn-sm">Eliminar</a></td>
+                            <td>
+                                <a href="{{ url_for('edit', id=row[0]) }}" class="btn btn-primary btn-sm btn-action">Editar</a>
+                                <a href="{{ url_for('delete', id=row[0]) }}" class="btn btn-danger btn-sm btn-action">Eliminar</a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
